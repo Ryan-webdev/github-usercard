@@ -111,15 +111,13 @@ function userCard(item){
 }
 
 //get server data
-axios.get('https://api.github.com/users/Ryan-webdev')
-    .then(obj => userCard(obj.data))
-    for (let i = 0; i < followersArray.length; i++) {    
-      axios.get(`https://api.github.com/users/${followersArray[i]}`)     
-      .then(res => { 
-        cards.appendChild(userCard(res.data));     
-     })     
-     .catch(err => console.error(err));
-        }
+axios.get('https://api.github.com/users/Ryan-webdev')    // <-- CALLING BOTH MY AND "FOLLOWERS'" CARDS AT ONCE...
+      .then(obj => userCard(obj.data))
+      .then(followersArray.map( follower => {
+        axios.get('https://api.github.com/users/' + follower)
+              .then(obj => userCard(obj.data));
+            })
+        );
     
 
 /* List of LS Instructors Github username's: 

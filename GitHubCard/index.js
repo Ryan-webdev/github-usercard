@@ -2,6 +2,8 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+  console.log(axios.get('https://api.github.com/users/Ryan-webdev'))
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +26,15 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'Devin44G',
+  'Spacecase94',
+  'GreenKnightGoof',
+  'annemarieallen',
+  'Dellrodar',
+  'alexvision26',
+  'KleoP'
+];
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +55,72 @@ const followersArray = [];
 </div>
 
 */
+const cards = document.querySelector('.cards')
+
+
+function userCard(item){
+  //create Element
+  let card = document.createElement('div')
+  let image = document.createElement('img')
+  let cardInfo = document.createElement('div')
+  let name = document.createElement('h3')
+  let userName = document.createElement('p')
+  let location = document.createElement('p')
+  let profile = document.createElement('p')
+  let aTag = document.createElement('a')
+  let followers = document.createElement('p')
+  let following = document.createElement('p')
+  let bio = document.createElement('p')
+
+
+  //classList
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  userName.classList.add('username')
+
+  //append
+  cards.appendChild(card)
+  card.appendChild(image)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  profile.appendChild(aTag)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+
+
+  //text data
+  image.src = item.avatar_url
+  name.textContent = item.name
+  userName.textContent = item.login
+  location.textContent = 'location: ' + item.location
+  profile.textContent = 'Profile: '
+  aTag.href = item.html_url
+  aTag.setAttribute('target', '_blank');
+  followers.textContent = 'Followers: ' + item.followers
+  following.textContent = 'Following: ' + item.following
+  bio.textContent = 'bio: ' + item.bio
+
+  
+
+  return card
+}
+
+//get server data
+axios.get('https://api.github.com/users/Ryan-webdev')
+    .then(obj => userCard(obj.data))
+    for (let i = 0; i < followersArray.length; i++) {    
+      axios.get(`https://api.github.com/users/${followersArray[i]}`)     
+      .then(res => { 
+        cards.appendChild(userCard(res.data));     
+     })     
+     .catch(err => console.error(err));
+        }
+    
 
 /* List of LS Instructors Github username's: 
   tetondan
@@ -53,3 +129,6 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
+
